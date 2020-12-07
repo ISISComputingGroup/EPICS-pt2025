@@ -17,3 +17,78 @@ record(bo, "$(P)DISABLE")
     field(ZNAM, "COMMS ENABLED")
     field(ONAM, "COMMS DISABLED")
 }
+
+record(stringin, "$(P)FIELD_STRENGTH")
+{
+    field(DTYP, "stream")
+    field(INP, "@pt2025.proto getFieldAuto $(PORT)")
+    field(SDIS, "$(P)DISABLE")
+    field(SCAN, "I/O Intr")
+    field(FLNK, "$(P)ACTIVITY_ON")
+}
+
+record(scalcout, "$(P)CALC_LOCKED")
+{
+    field(SCAN,"Passive")
+    field(INAA,"$(P)FIELD_STRENGTH CP MS")
+    field(CALC, "AA[0,0]=='L'")
+    field(OUT, "$(P)LOCKED PP MS")
+}
+
+record(calcout, "$(P)ACTIVITY_ON")
+{
+    field(SCAN, "Passive")
+    field(CALC, "1")
+    field(OUT, "$(P)ACTIVITY PP MS")
+    field(FLNK, "$(P)ACTIVITY_OFF PP MS")
+}
+
+record(calcout, "$(P)ACTIVITY_OFF")
+{
+    field(SCAN, "Passive")
+    field(CALC, "0")
+    field(ODLY, "0.5")
+    field(OUT, "$(P)ACTIVITY PP MS")
+}
+
+record(bi, "$(P)ACTIVITY")
+{
+    field(VAL, "0")
+}
+
+record(scalcout, "$(P)CALC_FIELD")
+{
+    field(SCAN,"Passive")
+    field(INAA,"$(P)CALC_LOCKED CP MS")
+    field(INBB, "$(P)FIELD_STRENGTH CP MS")
+    field(CALC, "AA == 1 ? BB[1,-2] : SQR('-1')")
+    field(OUT, "$(P)FIELD_TESLA PP MS")
+
+}
+
+record(scalcout, "$(P)CALC_GAUSS")
+{
+    field(SCAN,"Passive")
+    field(INAA,"$(P)CALC_LOCKED CP MS")
+    field(INBB, "$(P)FIELD_STRENGTH CP MS")
+    field(CALC, "AA == 1 ? (BB[1,-2] * 10000) : SQR('-1')")
+    field(OUT, "$(P)FIELD_GAUSS PP MS")
+}
+
+record(ai, "$(P)FIELD_TESLA")
+{
+
+	field(DESC, "Magnetic field in tesla")
+	info(INTEREST, "MEDIUM")
+}
+
+record(ai, "$(P)LOCKED")
+{
+	field(DESC, "Locked or not")
+	info(INTEREST, "MEDIUM")
+}
+
+record(ai, "$(P)FIELD_GAUSS")
+{
+    field(DESC, "Magnetic field in Gauss")
+}

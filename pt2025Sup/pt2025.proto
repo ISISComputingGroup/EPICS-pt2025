@@ -1,18 +1,6 @@
-getIDN {
-    out "*IDN?";
-    in "%\$1[^\r\n]";
-    ExtraInput = Ignore;
-}
+terminator = CR LF;
 
-cmd {
-    out "\$1";
-}
-
-setD {
-    out "\$1 %d";
-}
-getD {
-    out "\$1?";
-    in "%d";
-    ExtraInput = Ignore;
+# catch field strengths
+getFieldAuto {
+  in  "%s";
 }
