@@ -24,6 +24,8 @@ record(stringin, "$(P)FIELD_STRENGTH")
     field(INP, "@pt2025.proto getFieldAuto $(PORT)")
     field(SDIS, "$(P)DISABLE")
     field(SCAN, "I/O Intr")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:FIELD_STRENGTH")
     field(FLNK, "$(P)ACTIVITY_ON")
     info(INTEREST, "High")
 }
@@ -99,4 +101,12 @@ record(ai, "$(P)FIELD_GAUSS")
     field(DESC, "Magnetic field in Gauss")
     info(INTEREST, "High")
     field(EGU, "G")
+}
+
+# SIMULATED RECORDS
+
+record(stringin, "$(P)SIM:FIELD_STRENGTH")
+{
+	field(DESC, "Sim field strength")
+    
 }
