@@ -1,0 +1,112 @@
+record(bo, "$(P)SIM")
+{
+    field(SCAN, "Passive")
+    field(DTYP, "Soft Channel")
+    field(ZNAM, "NO")
+    field(ONAM, "YES")
+    field(VAL, "$(RECSIM=0)")
+    field(PINI, "YES")
+}
+
+record(bo, "$(P)DISABLE")
+{
+    field(DESC, "Disable comms")
+    field(PINI, "YES")
+    field(VAL, "$(DISABLE=0)")
+    field(OMSL, "supervisory")
+    field(ZNAM, "COMMS ENABLED")
+    field(ONAM, "COMMS DISABLED")
+}
+
+record(stringin, "$(P)FIELD_STRENGTH")
+{
+    field(DTYP, "stream")
+    field(INP, "@pt2025.proto getFieldAuto $(PORT)")
+    field(SDIS, "$(P)DISABLE")
+    field(SCAN, "I/O Intr")
+    field(SIML, "$(P)SIM")
+    field(SIOL, "$(P)SIM:FIELD_STRENGTH")
+    field(FLNK, "$(P)ACTIVITY_ON")
+    info(INTEREST, "High")
+}
+
+record(scalcout, "$(P)CALC_LOCKED")
+{
+    field(SCAN,"Passive")
+    field(INAA,"$(P)FIELD_STRENGTH CP MS")
+    field(CALC, "AA[0,0]== 'L'? 'LOCKED':'UNLOCKED'")
+    field(OUT, "$(P)LOCKED PP MS")
+}
+
+record(calcout, "$(P)ACTIVITY_ON")
+{
+    field(SCAN, "Passive")
+    field(CALC, "1")
+    field(OUT, "$(P)ACTIVITY PP MS")
+    field(FLNK, "$(P)ACTIVITY_OFF PP MS")
+}
+
+record(calcout, "$(P)ACTIVITY_OFF")
+{
+    field(SCAN, "Passive")
+    field(CALC, "0")
+    field(ODLY, "0.5")
+    field(OUT, "$(P)ACTIVITY PP MS")
+}
+
+record(ai, "$(P)ACTIVITY")
+{
+    field(VAL, "0")
+}
+
+record(scalcout, "$(P)CALC_FIELD")
+{
+    field(SCAN,"Passive")
+    field(INAA,"$(P)LOCKED CP MS")
+    field(INBB,"$(P)FIELD_STRENGTH CP MS")
+    field(CALC,"AA == 'LOCKED' ? BB[1,-2] : SQR('-1')")
+    field(OUT,"$(P)FIELD_TESLA PP MS")
+
+}
+
+record(scalcout, "$(P)CALC_GAUSS")
+{
+    field(SCAN,"Passive")
+    field(INAA,"$(P)LOCKED CP MS")
+    field(INBB, "$(P)FIELD_STRENGTH CP MS")
+    field(CALC, "AA == 'LOCKED' ? (BB[1,-2] * 10000) : SQR('-1')")
+    field(OUT, "$(P)FIELD_GAUSS PP MS")
+}
+
+record(ai, "$(P)FIELD_TESLA")
+{
+	field(DESC, "Magnetic field in tesla")
+    field(EGU, "T")
+	info(INTEREST, "High")
+}
+
+record(bo, "$(P)LOCKED")
+{
+	field(DESC, "Locked or not")
+    field(ONAM, "LOCKED")
+    field(ZNAM, "UNLOCKED")
+    field(OSV, "NO_ALARM")
+    field(ZSV, "MINOR")
+	info(INTEREST, "High")
+    field(SCAN, "Passive")
+}
+
+record(ai, "$(P)FIELD_GAUSS")
+{
+    field(DESC, "Magnetic field in Gauss")
+    info(INTEREST, "High")
+    field(EGU, "G")
+}
+
+# SIMULATED RECORDS
+
+record(stringin, "$(P)SIM:FIELD_STRENGTH")
+{
+	field(DESC, "Sim field strength")
+    
+}

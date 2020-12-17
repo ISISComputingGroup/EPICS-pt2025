@@ -1,0 +1,6 @@
+terminator = CR LF;
+
+# catch field strengths
+getFieldAuto {
+  in  "%s";
+}
