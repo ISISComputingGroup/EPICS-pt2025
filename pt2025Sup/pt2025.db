@@ -18,22 +18,23 @@ record(bo, "$(P)DISABLE")
     field(ONAM, "COMMS DISABLED")
 }
 
-record(stringin, "$(P)FIELD_STRENGTH")
+record(stringin, "$(P)FIELD:RAW")
 {
     field(DTYP, "stream")
+    field(DESC, "Raw field read from device")
     field(INP, "@pt2025.proto getFieldAuto $(PORT)")
     field(SDIS, "$(P)DISABLE")
     field(SCAN, "I/O Intr")
     field(SIML, "$(P)SIM")
-    field(SIOL, "$(P)SIM:FIELD_STRENGTH")
+    field(SIOL, "$(P)SIM:FIELD:RAW")
     field(FLNK, "$(P)ACTIVITY_ON")
-    info(INTEREST, "High")
+    info(INTEREST, "HIGH")
 }
 
 record(scalcout, "$(P)CALC_LOCKED")
 {
     field(SCAN,"Passive")
-    field(INAA,"$(P)FIELD_STRENGTH CP MS")
+    field(INAA,"$(P)FIELD:RAW CP MS")
     field(CALC, "AA[0,0]== 'L'? 'LOCKED':'UNLOCKED'")
     field(OUT, "$(P)LOCKED PP MS")
 }
@@ -63,7 +64,7 @@ record(scalcout, "$(P)CALC_FIELD")
 {
     field(SCAN,"Passive")
     field(INAA,"$(P)LOCKED CP MS")
-    field(INBB,"$(P)FIELD_STRENGTH CP MS")
+    field(INBB,"$(P)FIELD:RAW CP MS")
     field(CALC,"AA == 'LOCKED' ? BB[1,-2] : SQR('-1')")
     field(OUT,"$(P)FIELD_TESLA PP MS")
 
@@ -73,7 +74,7 @@ record(scalcout, "$(P)CALC_GAUSS")
 {
     field(SCAN,"Passive")
     field(INAA,"$(P)LOCKED CP MS")
-    field(INBB, "$(P)FIELD_STRENGTH CP MS")
+    field(INBB, "$(P)FIELD:RAW CP MS")
     field(CALC, "AA == 'LOCKED' ? (BB[1,-2] * 10000) : SQR('-1')")
     field(OUT, "$(P)FIELD_GAUSS PP MS")
 }
@@ -82,7 +83,8 @@ record(ai, "$(P)FIELD_TESLA")
 {
 	field(DESC, "Magnetic field in tesla")
     field(EGU, "T")
-	info(INTEREST, "High")
+	info(INTEREST, "HIGH")
+    info(archive, "VAL")
 }
 
 record(bo, "$(P)LOCKED")
@@ -92,20 +94,21 @@ record(bo, "$(P)LOCKED")
     field(ZNAM, "UNLOCKED")
     field(OSV, "NO_ALARM")
     field(ZSV, "MINOR")
-	info(INTEREST, "High")
+	info(INTEREST, "HIGH")
     field(SCAN, "Passive")
+    info(archive, "VAL")
 }
 
 record(ai, "$(P)FIELD_GAUSS")
 {
     field(DESC, "Magnetic field in Gauss")
-    info(INTEREST, "High")
+    info(INTEREST, "HIGH")
     field(EGU, "G")
 }
 
 # SIMULATED RECORDS
 
-record(stringin, "$(P)SIM:FIELD_STRENGTH")
+record(stringin, "$(P)SIM:FIELD:RAW")
 {
 	field(DESC, "Sim field strength")
     
